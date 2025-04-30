@@ -32,7 +32,7 @@ function renderDeals(deals) {
 
 async function loadAndRenderDeals() {
   const { data, error } = await supabase
-    .from("deal_submitted")
+    .from("deals_submitted")
     .select("*")
     .order("created_at", { ascending: false });
 
