@@ -6,6 +6,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname)));
 
 
@@ -22,6 +23,10 @@ function verifyUser(req, res, next) {
     return res.redirect('https://login.croccrm.com');
   }
 }
+app.get('/', verifyUser, (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
 
 app.get('/api/deals', async (req, res) => {
   const { data, error } = await supabase.from('deals_submitted').select('*');
@@ -30,8 +35,5 @@ app.get('/api/deals', async (req, res) => {
 });
 
 
-app.get('/', verifyUser, (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
-});
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
