@@ -47,13 +47,13 @@ function toggleExtra(index) {
 }
 
 function filterDeals() {
-  const query = document.getElementById('searchInput').value.toLowerCase();
+ window.filterDeals = function () {
+  const query = document.getElementById('searchInput').value.trim();
   const filtered = allDeals.filter(deal =>
-    deal.business_name.toLowerCase().includes(query) ||
-    deal.lender_names.toLowerCase().includes(query)
+    deal.dealid?.toString().includes(query)
   );
   renderDeals(filtered);
-}
+};
 
 function goBack() {
   window.location.href = 'dashboard.html';
