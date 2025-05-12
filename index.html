@@ -7,6 +7,10 @@
 </head>
 <body>
   <h1>Deals Submitted</h1>
+   <div style="margin-bottom: 20px;">
+    <button onclick="goBack()" class="back-btn">← Back to Dashboard</button>
+    <input type="text" id="searchInput" placeholder="Search by business or lender..." oninput="filterDeals()" />
+  </div>
   <div id="deals-container" class="grid"></div>
 
   <script src="dashboard.js"></script>
