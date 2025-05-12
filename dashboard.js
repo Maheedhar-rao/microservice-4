@@ -49,11 +49,19 @@ function toggleExtra(index) {
 function filterDeals() {
  window.filterDeals = function () {
   const query = document.getElementById('searchInput').value.trim();
+   
+  if (!query) {
+    renderDeals(allDeals);
+    return;
+  }
+
   const filtered = allDeals.filter(deal =>
-    deal.dealid?.toString().includes(query)
+    deal.dealid && deal.dealid.toString().includes(query)
   );
+
   renderDeals(filtered);
 };
+
 
 function goBack() {
   window.location.href = 'dashboard.html';
