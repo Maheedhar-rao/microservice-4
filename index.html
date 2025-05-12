@@ -2,26 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Deals Dashboard</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="dashboard-container">
-    <h1>Deals Dashboard</h1>
+  <h1>Deals Submitted</h1>
+  <div id="deals-container" class="grid"></div>
 
-    <div class="summary-cards">
-      <div class="card" id="totalDeals">Total Deals: 0</div>
-      <div class="card" id="approvedDeals">Approved: 0</div>
-      <div class="card" id="pendingDeals">Pending: 0</div>
-    </div>
-
-    <div class="deal-list">
-      <h2>Recent Submissions</h2>
-      <div id="dealGrid" class="grid"></div>
-    </div>
-  </div>
-
-  <script type="module" src="dashboard.js"></script>
+  <script src="dashboard.js"></script>
 </body>
 </html>
