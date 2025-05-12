@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname)));
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 function verifyUser(req, res, next) {
-  const token = req.cookies['auth_token'];
+  const token = req.cookies['token'];
   if (!token) return res.redirect('https://login.croccrm.com');
 
   try {
