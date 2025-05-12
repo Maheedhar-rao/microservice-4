@@ -30,4 +30,25 @@ body {
 .extra-info p {
   margin: 4px 0;
 }
+#searchInput {
+  padding: 10px;
+  width: 250px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background: #161b22;
+  color: #fff;
+  margin-left: 10px;
+}
+.back-btn {
+  padding: 10px 16px;
+  background: #30363d;
+  color: #58a6ff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.back-btn:hover {
+  background: #21262d;
+}
+
 
