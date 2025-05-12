@@ -1,16 +1,14 @@
 {
-  "name": "supabase-dashboard",
+  "name": "deals-dashboard",
   "version": "1.0.0",
+  "description": "display deals submitted",
+  "main": "server.js",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview --port 4173",
-    "start": "vite preview --port $PORT --host"
+    "start": "node server.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.5"
-  },
-  "devDependencies": {
-    "vite": "^5.0.0"
+    "@supabase/supabase-js": "^2.39.7",
+    "dotenv": "^16.3.1",
+    "express": "^4.19.2"
   }
 }
