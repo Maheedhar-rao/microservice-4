@@ -10,6 +10,8 @@ async function fetchAndRenderDeals() {
 }
 
 function renderDeals(deals) {
+  const container = document.getElementById('deals-container');
+  container.innerHTML = deals.map((deal, index) => {
   const sortedLenders = deal.lender_names
   ? deal.lender_names
       .split(',')
