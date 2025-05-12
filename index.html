@@ -6,9 +6,12 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+   <div class="logo-container">
+    <img src="logo.png" alt="Croc CRM Logo" class="logo" />
   <h1>Deals Submitted</h1>
+    </div>
    <div style="margin-bottom: 20px;">
-    <button onclick="goBack()" class="back-btn">← Back to Dashboard</button>
+    <a href="https://login.croccrm.com/dashboard.html" class="back-btn">← Back to Dashboard</button>
     <input type="text" id="searchInput" placeholder="Search by business or lender..." oninput="filterDeals()" />
   </div>
   <div id="deals-container" class="grid"></div>
