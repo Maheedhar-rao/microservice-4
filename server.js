@@ -1,5 +1,6 @@
 const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 require('dotenv').config();
 
