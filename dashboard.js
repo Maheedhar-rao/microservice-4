@@ -10,11 +10,15 @@ async function fetchAndRenderDeals() {
 }
 
 function renderDeals(deals) {
-  const container = document.getElementById('deals-container');
-  container.innerHTML = deals.map((deal, index) => {
-    const sortedLenders = deal.lender_names
-      ? deal.lender_names.split(',').map(name => name.trim()).sort().join(', ')
-      : 'N/A';
+  const sortedLenders = deal.lender_names
+  ? deal.lender_names
+      .split(',')
+      .map(name => name.trim())
+      .sort()
+      .map(name => `<span class="lender">${name}</span>`)
+      .join('<br>')
+  : 'N/A';
+
 
     return `
       <div class="card">
