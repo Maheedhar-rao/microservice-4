@@ -46,10 +46,9 @@ function toggleExtra(index) {
   btn.textContent = isVisible ? 'Show More' : 'Show Less';
 }
 
-function filterDeals() {
- window.filterDeals = function () {
+window.filterDeals = function () {
   const query = document.getElementById('searchInput').value.trim();
-   
+
   if (!query) {
     renderDeals(allDeals);
     return;
@@ -61,6 +60,7 @@ function filterDeals() {
 
   renderDeals(filtered);
 };
+
 
 
 function goBack() {
