@@ -50,5 +50,18 @@ body {
 .back-btn:hover {
   background: #21262d;
 }
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 60px;
+  height: auto;
+  border-radius: 8px;
+}
+
 
 
