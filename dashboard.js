@@ -5,10 +5,11 @@ window.onload = async () => {
   const container = document.getElementById('deals-container');
   container.innerHTML = deals.map(deal => `
     <div class="card">
-      <h3>${deal.business_name || 'Untitled'}</h3>
-      <p><strong>Amount:</strong> ${deal.amount_requested || 'N/A'}</p>
-      <p><strong>Industry:</strong> ${deal.industry || 'N/A'}</p>
-      <p><strong>Status:</strong> ${deal.status || 'Pending'}</p>
+      <h3>${deal.business_name}</h3>
+      <p><strong>Lender(s):</strong> ${deal.lender_names}</p>
+      <p><strong>Deal ID:</strong> ${deal.dealid || 'N/A'}</p>
+      <p><strong>File:</strong> ${deal.filename || 'N/A'}</p>
+      <p><strong>Submitted:</strong> ${new Date(deal.creation_date).toLocaleString()}</p>
     </div>
   `).join('');
 };
