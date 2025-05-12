@@ -40,16 +40,19 @@ body {
   margin-left: 10px;
 }
 .back-btn {
+  display: inline-block;
   padding: 10px 16px;
   background: #30363d;
   color: #58a6ff;
-  border: none;
   border-radius: 6px;
-  cursor: pointer;
+  text-decoration: none;
+  margin-right: 10px;
 }
+
 .back-btn:hover {
   background: #21262d;
 }
+
 .logo-container {
   display: flex;
   align-items: center;
