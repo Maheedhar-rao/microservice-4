@@ -25,12 +25,11 @@ function renderDeals(deals) {
     return `
       <div class="card">
         <h3>${deal.business_name}</h3>
-        <p><strong>Lenders:</strong><br/> ${sortedLenders}</p>
+        <p><strong>Deal ID:</strong> ${deal.dealid || 'N/A'}</p>
+          <p><strong>Submitted:</strong> ${new Date(deal.creation_date).toLocaleString()}</p>
 
         <div id="extra-${index}" class="extra-info" style="display: none;">
-          <p><strong>Deal ID:</strong> ${deal.dealid || 'N/A'}</p>
-          <p><strong>File:</strong> ${deal.filename || 'N/A'}</p>
-          <p><strong>Submitted:</strong> ${new Date(deal.creation_date).toLocaleString()}</p>
+          <p><strong>Lenders:</strong><br/> ${sortedLenders}</p>
         </div>
 
         <button class="toggle-btn" onclick="toggleExtra(${index})">Show More</button>
