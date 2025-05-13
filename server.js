@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cookieParser());
-
+app.use(express.static(path.join(__dirname)));
 
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
@@ -35,6 +35,6 @@ app.get('/api/deals', async (req, res) => {
   res.json(data);
 });
 
-app.use(express.static(path.join(__dirname)));
+
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
