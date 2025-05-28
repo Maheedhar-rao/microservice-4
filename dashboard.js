@@ -74,8 +74,8 @@ function renderDeals(deals) {
         <h3>${dealLink}</h3>
         <p><strong>Deal ID:</strong> ${deal.dealid || 'N/A'}</p>
         <p><strong>Submitted:</strong> ${
-          deal.created_at
-          ? new Date(deal.created_at.replace(' ', 'T')).toLocaleString()
+          deal.creation_date
+          ? new Date(deal.creation_date).toLocaleString()
           : 'N/A'
         }</p>
 
