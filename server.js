@@ -35,6 +35,15 @@ app.get('/api/deals', async (req, res) => {
   res.json(data);
 });
 
+app.get('/api/live-replies', async (req, res) => {
+  const { data, error } = await supabase
+    .from('Live submissions')
+    .select('business_name, lender_names, reply_status, reply_body, reply_date');
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
 
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
