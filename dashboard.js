@@ -32,7 +32,10 @@ async function fetchAndRenderDeals() {
     };
   });
 
-  // Apply saved filter if present
+  // sort by newest created_at by default
+  allDeals.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+  // Apply saved search filter
   const savedQuery = localStorage.getItem('dealSearchQuery');
   if (savedQuery) {
     document.getElementById('searchInput').value = savedQuery;
@@ -44,7 +47,6 @@ async function fetchAndRenderDeals() {
     renderDeals(allDeals);
   }
 }
-
 
 function renderDeals(deals) {
   const container = document.getElementById('deals-container');
@@ -72,7 +74,7 @@ function renderDeals(deals) {
       <div class="card">
         <h3>${dealLink}</h3>
         <p><strong>Deal ID:</strong> ${deal.dealid || 'N/A'}</p>
-        <p><strong>Submitted:</strong> ${new Date(deal.creation_date).toLocaleString()}</p>
+        <p><strong>Submitted:</strong> ${new Date(deal.created_at).toLocaleString()}</p>
         <p><strong>Status:</strong> ${status}</p>
 
         <div id="extra-${index}" class="extra-info" style="display: none;">
@@ -108,17 +110,14 @@ window.filterDeals = function () {
   renderDeals(filtered);
 };
 
-function goBack() {
-  window.location.href = 'dashboard.html';
-}
-
-// Auto fetch
-fetchAndRenderDeals();
-setInterval(fetchAndRenderDeals, 180000);
+window.clearFilter = function () {
+  localStorage.removeItem('dealSearchQuery');
+  document.getElementById('searchInput').value = '';
+  renderDeals(allDeals);
+};
 
 window.applySort = function () {
   const sortBy = document.getElementById('sortSelect').value;
-
   let sortedDeals = [...allDeals];
 
   switch (sortBy) {
@@ -143,10 +142,17 @@ window.applySort = function () {
       });
       break;
     default:
-      // Default to latest submission
       sortedDeals.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       break;
   }
 
   renderDeals(sortedDeals);
 };
+
+function goBack() {
+  window.location.href = 'dashboard.html';
+}
+
+// Initial fetch + periodic refresh
+fetchAndRenderDeals();
+setInterval(fetchAndRenderDeals, 180000);
