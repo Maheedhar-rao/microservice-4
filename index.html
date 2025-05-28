@@ -6,14 +6,23 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-   <div class="logo-container">
+  <div class="logo-container">
     <img src="logo.png" alt="Croc CRM Logo" class="logo" />
-  <h1>Deals Submitted</h1>
-    </div>
-   <div style="margin-bottom: 20px;">
+    <h1>Deals Submitted</h1>
+  </div>
+
+  <div style="margin-bottom: 20px;">
     <a href="https://login.croccrm.com/dashboard.html" class="back-btn">Dashboard</a>
     <input type="text" id="searchInput" placeholder="Search by dealid.." oninput="filterDeals()" />
+    <select id="sortSelect" onchange="applySort()" style="margin-left: 10px; padding: 10px; background: #161b22; color: white; border-radius: 6px; border: 1px solid #333;">
+      <option value="">Sort by...</option>
+      <option value="dealid">Deal ID</option>
+      <option value="submission_id">Submission ID</option>
+      <option value="created_at">Submission Date (Newest)</option>
+      <option value="status">Status</option>
+    </select>
   </div>
+
   <div id="deals-container" class="grid"></div>
 
   <script src="dashboard.js"></script>
