@@ -52,7 +52,7 @@ function renderDeals(deals) {
       : 'N/A';
 
     const dealLink = deal.hasReplies
-      ? `<a href="details.html?business=${encodeURIComponent(deal.business_name)}" class="underline">${deal.business_name}</a>`
+      ? `<a href="status.html?business=${encodeURIComponent(deal.business_name)}" class="underline">${deal.business_name}</a>`
       : `${deal.business_name}`;
 
     const status = deal.hasReplies
