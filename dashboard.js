@@ -12,7 +12,7 @@ async function fetchAndRenderDeals() {
   allDeals = deals
     .map(deal => {
       const repliesForDeal = liveReplies.filter(
-        r => r.business_name?.trim() === deal.business_name?.trim()
+        r => r.business_name?.trim().toLowerCase() === deal.business_name?.trim().toLowerCase()
       );
 
       const submittedLenders = (deal.lender_names || "")
