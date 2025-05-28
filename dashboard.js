@@ -32,8 +32,8 @@ async function fetchAndRenderDeals() {
     };
   });
 
-  // sort by newest created_at by default
-  allDeals.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  // sort by newest creation_date by default
+  allDeals.sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date));
 
   // Apply saved search filter
   const savedQuery = localStorage.getItem('dealSearchQuery');
@@ -73,7 +73,7 @@ function renderDeals(deals) {
       <div class="card">
         <h3>${dealLink}</h3>
         <p><strong>Deal ID:</strong> ${deal.dealid || 'N/A'}</p>
-        <p><strong>Submitted:</strong> ${deal.created_at || 'N/A'}</p>
+        <p><strong>Submitted:</strong> ${deal.creation_date || 'N/A'}</p>
 
         <p><strong>Status:</strong> ${status}</p>
 
@@ -127,8 +127,8 @@ window.applySort = function () {
     case 'submission_id':
       sortedDeals.sort((a, b) => (a.submission_id || '').localeCompare(b.submission_id || ''));
       break;
-    case 'created_at':
-      sortedDeals.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+    case 'creation_date':
+      sortedDeals.sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date));
       break;
     case 'status':
       sortedDeals.sort((a, b) => {
@@ -142,7 +142,7 @@ window.applySort = function () {
       });
       break;
     default:
-      sortedDeals.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      sortedDeals.sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date));
       break;
   }
 
