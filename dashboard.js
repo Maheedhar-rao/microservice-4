@@ -8,36 +8,43 @@ async function fetchAndRenderDeals() {
   const replyRes = await fetch('/api/live-replies');
   liveReplies = await replyRes.json();
 
-  // Sort by latest submission (descending)
-  allDeals = deals
-    .map(deal => {
-      const repliesForDeal = liveReplies.filter(
-        r => r.business_name?.trim().toLowerCase() === deal.business_name?.trim().toLowerCase()
-      );
+  allDeals = deals.map(deal => {
+    const repliesForDeal = liveReplies.filter(
+      r => r.business_name?.trim().toLowerCase() === deal.business_name?.trim().toLowerCase()
+    );
 
-      const submittedLenders = (deal.lender_names || "")
-        .split(',')
-        .map(name => name.trim().toLowerCase())
-        .filter(Boolean);
-      const repliedLenders = repliesForDeal
-        .map(r => r.lender_names?.split(',').map(n => n.trim().toLowerCase()))
-        .flat()
-        .filter(Boolean);
-      const uniqueReplied = new Set(repliedLenders);
-      const allMatched = submittedLenders.every(lender =>
-        uniqueReplied.has(lender)
-                                               );
+    const submittedLenders = (deal.lender_names || "")
+      .split(',')
+      .map(name => name.trim().toLowerCase())
+      .filter(Boolean);
 
-      return {
-        ...deal,
-        hasReplies: repliesForDeal.length > 0,
-        allLendersReplied: allMatched,
-      };
-    })
-    .sort((a, b) => new Date(b.creation_date) - new Date(a.creation_date));
+    const repliedLenders = repliesForDeal
+      .map(r => r.lender_names?.split(',').map(n => n.trim().toLowerCase()))
+      .flat()
+      .filter(Boolean);
 
-  renderDeals(allDeals);
+    const allMatched = submittedLenders.every(l => new Set(repliedLenders).has(l));
+
+    return {
+      ...deal,
+      hasReplies: repliesForDeal.length > 0,
+      allLendersReplied: allMatched
+    };
+  });
+
+  // Apply saved filter if present
+  const savedQuery = localStorage.getItem('dealSearchQuery');
+  if (savedQuery) {
+    document.getElementById('searchInput').value = savedQuery;
+    const filtered = allDeals.filter(deal =>
+      deal.dealid && deal.dealid.toString().includes(savedQuery)
+    );
+    renderDeals(filtered);
+  } else {
+    renderDeals(allDeals);
+  }
 }
+
 
 function renderDeals(deals) {
   const container = document.getElementById('deals-container');
