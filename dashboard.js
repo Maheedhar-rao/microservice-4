@@ -17,16 +17,16 @@ async function fetchAndRenderDeals() {
 
       const submittedLenders = (deal.lender_names || "")
         .split(',')
-        .map(name => name.trim())
+        .map(name => name.trim().toLowerCase())
         .filter(Boolean);
-
       const repliedLenders = repliesForDeal
-        .map(r => r.lender_names?.split(',').map(n => n.trim()))
+        .map(r => r.lender_names?.split(',').map(n => n.trim().toLowerCase()))
         .flat()
         .filter(Boolean);
-
       const uniqueReplied = new Set(repliedLenders);
-      const allMatched = submittedLenders.every(l => uniqueReplied.has(l));
+      const allMatched = submittedLenders.every(lender =>
+        uniqueReplied.has(lender)
+                                               );
 
       return {
         ...deal,
