@@ -88,6 +88,7 @@ function toggleExtra(index) {
 
 window.filterDeals = function () {
   const query = document.getElementById('searchInput').value.trim();
+  localStorage.setItem('dealSearchQuery', query);
   if (!query) {
     renderDeals(allDeals);
     return;
