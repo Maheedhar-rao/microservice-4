@@ -74,7 +74,7 @@ function renderDeals(deals) {
       <div class="card">
         <h3>${dealLink}</h3>
         <p><strong>Deal ID:</strong> ${deal.dealid || 'N/A'}</p>
-        <p><strong>Submitted:</strong> ${new Date(deal.created_at).toLocaleString()}</p>
+        <p><strong>Submitted:</strong> ${new Date(deal.created_at.replace(' ', 'T')).toLocaleString()}</p>
         <p><strong>Status:</strong> ${status}</p>
 
         <div id="extra-${index}" class="extra-info" style="display: none;">
