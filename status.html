@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deal Reply Status</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #1f1f1f;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .status {
+      margin-bottom: 20px;
+      font-weight: bold;
+      color: #58a6ff;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h3 {
+      font-size: 18px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      color: #58a6ff;
+    }
+
+    .reply {
+      background: #161b22;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      box-shadow: 0 0 5px #000;
+    }
+
+    .reply p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+    <h2 id="businessTitle">Loading...</h2>
+    <p id="dealStatus" class="status"></p>
+
+    <div class="section">
+      <h3>Approvals</h3>
+      <div id="approvalsList"></div>
+    </div>
+
+    <div class="section">
+      <h3>Declines</h3>
+      <div id="declinesList"></div>
+    </div>
+  </div>
+
+  <script>
+    async function loadDetails() {
+      const businessName = new URLSearchParams(window.location.search).get('business');
+      if (!businessName) {
+        document.getElementById('businessTitle').textContent = "No business specified.";
+        return;
+      }
+
+      const res = await fetch('/api/live-replies');
+      const replies = await res.json();
+      const filtered = replies.filter(r => r.business_name === businessName);
+
+      document.getElementById('businessTitle').textContent = businessName;
+
+      const allLenders = [...new Set(filtered.flatMap(r => r.lender_names?.split(',').map(l => l.trim()) || []))];
+      const approvals = filtered.filter(r => r.reply_status?.toLowerCase().includes('approval'));
+      const declines = filtered.filter(r => r.reply_status?.toLowerCase().includes('decline'));
+
+      const statusText = filtered.length === allLenders.length
+        ? '✅ Deal received feedback from all submitted lenders'
+        : '⏳ Deal pending feedback';
+      document.getElementById('dealStatus').textContent = statusText;
+
+      const approvalsList = document.getElementById('approvalsList');
+      const declinesList = document.getElementById('declinesList');
+
+      approvalsList.innerHTML = approvals.length
+        ? approvals.map(r => `<div class="reply"><p><strong>${r.lender_names}</strong></p><p>${r.reply_body || ''}</p></div>`).join('')
+        : '<p>No approvals yet.</p>';
+
+      declinesList.innerHTML = declines.length
+        ? declines.map(r => `<div class="reply"><p><strong>${r.lender_names}</strong></p><p>${r.reply_body || ''}</p></div>`).join('')
+        : '<p>No declines yet.</p>';
+    }
+
+    loadDetails();
+  </script>
+</body>
+</html>
