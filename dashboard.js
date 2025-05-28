@@ -107,3 +107,38 @@ function goBack() {
 // Auto fetch
 fetchAndRenderDeals();
 setInterval(fetchAndRenderDeals, 180000);
+
+window.applySort = function () {
+  const sortBy = document.getElementById('sortSelect').value;
+
+  let sortedDeals = [...allDeals];
+
+  switch (sortBy) {
+    case 'dealid':
+      sortedDeals.sort((a, b) => Number(a.dealid) - Number(b.dealid));
+      break;
+    case 'submission_id':
+      sortedDeals.sort((a, b) => (a.submission_id || '').localeCompare(b.submission_id || ''));
+      break;
+    case 'created_at':
+      sortedDeals.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      break;
+    case 'status':
+      sortedDeals.sort((a, b) => {
+        const statusA = a.hasReplies
+          ? (a.allLendersReplied ? 'complete' : 'pending')
+          : 'none';
+        const statusB = b.hasReplies
+          ? (b.allLendersReplied ? 'complete' : 'pending')
+          : 'none';
+        return statusA.localeCompare(statusB);
+      });
+      break;
+    default:
+      // Default to latest submission
+      sortedDeals.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      break;
+  }
+
+  renderDeals(sortedDeals);
+};
