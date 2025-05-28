@@ -47,7 +47,7 @@ async function fetchAndRenderDeals() {
     renderDeals(allDeals);
   }
 }
-
+console.log('Deal created_at:', deal.created_at);
 function renderDeals(deals) {
   const container = document.getElementById('deals-container');
   container.innerHTML = deals.map((deal, index) => {
@@ -74,7 +74,11 @@ function renderDeals(deals) {
       <div class="card">
         <h3>${dealLink}</h3>
         <p><strong>Deal ID:</strong> ${deal.dealid || 'N/A'}</p>
-        <p><strong>Submitted:</strong> ${new Date(deal.created_at.replace(' ', 'T')).toLocaleString()}</p>
+        <p><strong>Submitted:</strong> ${
+          deal.created_at
+          ? new Date(deal.created_at.replace(' ', 'T')).toLocaleString()
+          : 'N/A'
+        }</p>
         <p><strong>Status:</strong> ${status}</p>
 
         <div id="extra-${index}" class="extra-info" style="display: none;">
