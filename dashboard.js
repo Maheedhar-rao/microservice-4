@@ -47,7 +47,6 @@ async function fetchAndRenderDeals() {
     renderDeals(allDeals);
   }
 }
-console.log('Deal created_at:', deal.created_at);
 function renderDeals(deals) {
   const container = document.getElementById('deals-container');
   container.innerHTML = deals.map((deal, index) => {
