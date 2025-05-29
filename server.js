@@ -48,7 +48,7 @@ app.get('/api/live-replies', async (req, res) => {
 
 app.get('/api/manual-reply-search', async (req, res) => {
   const { dealid, business_name } = req.body;
-  if (!deal_id || !business_name) return res.status(400).json({ message: 'Missing fields' });
+  if (!dealid || !business_name) return res.status(400).json({ message: 'Missing fields' });
 
   const { data: deals, error } = await supabase
     .from('deals_submitted')
