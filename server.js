@@ -44,6 +44,30 @@ app.get('/api/live-replies', async (req, res) => {
   res.json(data);
 });
 
+app.post('/api/manual-reply-search', async (req, res) => {
+  const { deal_id, business_name } = req.body;
+  if (!deal_id || !business_name) return res.status(400).json({ message: 'Missing fields' });
+
+  const { data: deals, error } = await supabase
+    .from('deals_submitted')
+    .select('*')
+    .eq('deal_id', deal_id)
+    .eq('business_name', business_name);
+
+  if (error || !deals?.length) {
+    return res.status(404).json({ message: 'Deal not found' });
+  }
+
+  const deal = deals[0];
+  const replies = await searchReplies(deal); // reuse from fetchReplies.js
+
+  if (replies.length > 0) {
+    await updateLiveSubmission(deal, replies[0]); // reuse from fetchReplies.js
+    return res.json({ message: '✅ Reply saved successfully.' });
+  } else {
+    return res.json({ message: '⏳ No reply found.' });
+  }
+});
 
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
