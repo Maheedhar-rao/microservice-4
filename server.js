@@ -1,4 +1,5 @@
 const express = require('express');
+
 const { createClient } = require('@supabase/supabase-js');
 const cookieParser = require('cookie-parser');
 const path = require('path');
@@ -8,6 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cookieParser());
+app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
 
@@ -44,7 +46,7 @@ app.get('/api/live-replies', async (req, res) => {
   res.json(data);
 });
 
-app.post('/api/manual-reply-search', async (req, res) => {
+app.get('/api/manual-reply-search', async (req, res) => {
   const { deal_id, business_name } = req.body;
   if (!deal_id || !business_name) return res.status(400).json({ message: 'Missing fields' });
 
