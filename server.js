@@ -47,30 +47,32 @@ app.get('/api/live-replies', async (req, res) => {
 });
 
 app.get('/api/manual-reply-search', async (req, res) => {
-  console.log('🛠 Query received:', req.query);
-  const { dealid, business_name } = req.body;
-  if (!dealid || !business_name) return res.status(400).json({ message: 'Missing fields' });
+  try {
+    const { dealid, business_name } = req.query;
+    const parsedDealId = parseInt(dealid, 10);
 
-  const { data: deals, error } = await supabase
-    .from('deals_submitted')
-    .select('*')
-    .eq('dealid', dealid)
-    .eq('business_name', business_name);
+    if (!parsedDealId || !business_name) {
+      return res.status(400).json({ message: 'Missing or invalid fields' });
+    }
 
-  if (error || !deals?.length) {
-    return res.status(404).json({ message: 'Deal not found' });
-  }
+    const { data, error } = await supabase
+      .from('deals_submitted')
+      .select('*')
+      .eq('dealid', parsedDealId)
+      .ilike('business_name', `%${business_name}%`);
 
-  const deal = deals[0];
-  const replies = await searchReplies(deal); // reuse from fetchReplies.js
+    console.log('📦 Supabase response:', data);
 
-  if (replies.length > 0) {
-    await updateLiveSubmission(deal, replies[0]); // reuse from fetchReplies.js
-    return res.json({ message: '✅ Reply saved successfully.' });
-  } else {
-    return res.json({ message: '⏳ No reply found.' });
+    if (error) return res.status(500).json({ message: 'Supabase error', error });
+    if (!data.length) return res.status(404).json({ message: 'No matching deal found' });
+
+    return res.json({ message: '✅ Deal found', deal: data[0] });
+  } catch (err) {
+    console.error('💥 Unexpected error:', err);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 });
+
 
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
