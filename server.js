@@ -54,7 +54,7 @@ app.get('/api/manual-reply-search', async (req, res) => {
   const { data: deals, error } = await supabase
     .from('deals_submitted')
     .select('*')
-    .eq('dealid', deal_id)
+    .eq('dealid', dealid)
     .eq('business_name', business_name);
 
   if (error || !deals?.length) {
