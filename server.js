@@ -41,6 +41,7 @@ app.get('/api/live-replies', async (req, res) => {
   const { data, error } = await supabase
     .from('Live submissions')
     .select('business_name, lender_names, reply_status, reply_body, reply_date');
+    .ilike('reply_status', 'replied')
 
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
