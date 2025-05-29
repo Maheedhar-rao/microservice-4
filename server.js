@@ -47,6 +47,7 @@ app.get('/api/live-replies', async (req, res) => {
 });
 
 app.get('/api/manual-reply-search', async (req, res) => {
+  console.log('🛠 Query received:', req.query);
   const { dealid, business_name } = req.body;
   if (!dealid || !business_name) return res.status(400).json({ message: 'Missing fields' });
 
