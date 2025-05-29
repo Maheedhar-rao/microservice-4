@@ -38,13 +38,13 @@ async function loadStatusPage() {
     ? approvals.map(r =>
         `<div class="reply"><p><strong>${r.lender_names}</strong></p><p>${r.reply_body || ''}</p></div>`
       ).join('')
-    : '<p>No approvals yet.</p>';
+    : '<p>Working on it...</p>';
 
   declinesList.innerHTML = declines.length
     ? declines.map(r =>
         `<div class="reply"><p><strong>${r.lender_names}</strong></p><p>${r.reply_body || ''}</p></div>`
       ).join('')
-    : '<p>No declines yet.</p>';
+    : '<p>Working on it...</p>';
 
   if (others.length > 0) {
     document.getElementById('otherRepliesSection').style.display = 'block';
