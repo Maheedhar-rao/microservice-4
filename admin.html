@@ -21,7 +21,7 @@
         return;
       }
 
-      const res = await fetch(`/api/manual-reply-search?deal_id=${encodeURIComponent(dealId)}&business_name=${encodeURIComponent(businessName)}`);
+      const res = await fetch(`/api/manual-reply-search?dealid=${encodeURIComponent(dealId)}&business_name=${encodeURIComponent(businessName)}`);
       const result = await res.json();
       document.getElementById('status').textContent = result.message;
     }
