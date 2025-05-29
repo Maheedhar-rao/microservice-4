@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manual Reply Search</title>
+</head>
+<body>
+  <h2>Gmail Reply Search</h2>
+  <label>Deal ID: <input type="text" id="dealId" /></label><br><br>
+  <label>Business Name: <input type="text" id="businessName" /></label><br><br>
+  <button onclick="searchReply()">Search for Reply</button>
+  <p id="status"></p>
+
+  <script>
+    async function searchReply() {
+      const dealId = document.getElementById('dealId').value.trim();
+      const businessName = document.getElementById('businessName').value.trim();
+
+      if (!dealId || !businessName) {
+        document.getElementById('status').textContent = "Please enter both fields.";
+        return;
+      }
+
+      const res = await fetch('/api/manual-reply-search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ deal_id: dealId, business_name: businessName })
+      });
+
+      const result = await res.json();
+      document.getElementById('status').textContent = result.message;
+    }
+  </script>
+</body>
+</html>
