@@ -21,12 +21,7 @@
         return;
       }
 
-      const res = await fetch('/api/manual-reply-search', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ deal_id: dealId, business_name: businessName })
-      });
-
+      const res = await fetch(`/api/manual-reply-search?deal_id=${encodeURIComponent(dealId)}&business_name=${encodeURIComponent(businessName)}`);
       const result = await res.json();
       document.getElementById('status').textContent = result.message;
     }
