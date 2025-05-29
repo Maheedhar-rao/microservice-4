@@ -55,3 +55,4 @@ async function loadStatusPage() {
 }
 
 loadStatusPage();
+setInterval(loadStatusPage, 3 * 60 * 1000);
