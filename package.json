@@ -2,6 +2,7 @@
   "name": "deals-dashboard",
   "version": "1.0.0",
   "description": "display deals submitted",
+  "type": "module",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
