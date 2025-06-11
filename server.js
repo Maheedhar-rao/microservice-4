@@ -41,7 +41,7 @@ app.get('/api/live-replies', async (req, res) => {
   const { data, error } = await supabase
     .from('Live submissions')
     .select('business_name, lender_names, reply_status, reply_body, reply_date')
-    .ilike('reply_status', 'replied')
+    //.ilike('reply_status', 'replied')
     .range(0, 4999); 
   console.log('✅ live-replies fetched:', data?.length);
 
