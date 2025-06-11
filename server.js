@@ -38,16 +38,27 @@ app.get('/api/deals', async (req, res) => {
 });
 
 app.get('/api/live-replies', async (req, res) => {
-  const { data, error } = await supabase
-    .from('Live submissions')
-    .select('business_name, lender_names, reply_status, reply_body, reply_date')
-    //.ilike('reply_status', 'replied')
-    .range(0, 4999); 
-  console.log('✅ live-replies fetched:', data?.length);
+  let allReplies = [];
 
-  if (error) return res.status(500).json({ error: error.message });
-  res.json(data);
+  // Paginate in chunks of 1000
+  for (let i = 0; i < 5000; i += 1000) {
+    const { data, error } = await supabase
+      .from('Live submissions')
+      .select('business_name, lender_names, reply_status, reply_body, reply_date')
+      .range(i, i + 999);
+
+    if (error) {
+      return res.status(500).json({ error: error.message });
+    }
+
+    if (data.length === 0) break; // No more rows
+    allReplies = allReplies.concat(data);
+  }
+
+  console.log('✅ live-replies fetched:', allReplies.length);
+  res.json(allReplies);
 });
+
 
 app.get('/api/manual-reply-search', async (req, res) => {
   try {
