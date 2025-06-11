@@ -43,6 +43,7 @@ app.get('/api/live-replies', async (req, res) => {
     .select('business_name, lender_names, reply_status, reply_body, reply_date')
     .ilike('reply_status', 'replied')
     .range(0, 4999); 
+  console.log('✅ live-replies fetched:', data?.length);
 
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
