@@ -2,10 +2,10 @@ let allDeals = [];
 let liveReplies = [];
 
 async function fetchAndRenderDeals() {
-  const res = await fetch('/api/deals');
+  const res = await fetch('/api/deals' , { credentials: 'include' });
   const deals = await res.json();
 
-  const replyRes = await fetch('/api/live-replies');
+  const replyRes = await fetch('/api/live-replies' , { credentials: 'include' });
   liveReplies = await replyRes.json();
 
   allDeals = deals.map(deal => {
