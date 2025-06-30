@@ -14,13 +14,14 @@ app.use(express.static(path.join(__dirname)));
 
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
-
+const jwt = require('jsonwebtoken'); 
 function verifyUser(req, res, next) {
   const token = req.cookies['token'];
   if (!token) return res.redirect('https://login.croccrm.com');
 
   try {
     jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded; 
     next();
   } catch {
     return res.redirect('https://login.croccrm.com');
@@ -31,7 +32,7 @@ app.get('/', verifyUser, (req, res) => {
 });
 
 
-app.get('/api/deals', async (req, res) => {
+app.get('/api/deals', verifyUser, async (req, res) => {
   const userId = req.user.id;
   const { data, error } = await supabase
     .from('deals_submitted')
