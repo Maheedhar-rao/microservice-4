@@ -32,7 +32,12 @@ app.get('/', verifyUser, (req, res) => {
 
 
 app.get('/api/deals', async (req, res) => {
-  const { data, error } = await supabase.from('deals_submitted').select('*');
+  const userId = req.user.id;
+  const { data, error } = await supabase
+    .from('deals_submitted')
+    .select('dealid, business_name, lender_names, submitted_by, creation_date')
+    .eq('user_id', userId)
+    .order('creation_date', { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
 });
