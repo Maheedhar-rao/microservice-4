@@ -17,16 +17,24 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 const jwt = require('jsonwebtoken'); 
 function verifyUser(req, res, next) {
   const token = req.cookies['token'];
-  if (!token) return res.redirect('https://login.croccrm.com');
+  const isAPI = req.path.startsWith('/api/');
+
+  if (!token) {
+    if (isAPI) return res.status(401).json({ error: 'Missing token' });
+    return res.redirect('https://login.croccrm.com/login.html');
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; 
+    req.user = decoded;
     next();
-  } catch {
-    return res.redirect('https://login.croccrm.com');
+  } catch (err) {
+    console.error('JWT verification failed:', err.message);
+    if (isAPI) return res.status(403).json({ error: 'Invalid token' });
+    return res.redirect('https://login.croccrm.com/login.html');
   }
 }
+
 app.get('/', verifyUser, (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
