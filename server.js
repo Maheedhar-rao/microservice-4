@@ -47,6 +47,9 @@ app.get('/api/deals', verifyUser, async (req, res) => {
     .select('dealid, business_name, lender_names,  name, creation_date')
     .eq('user_id', userId)
     .order('creation_date', { ascending: false });
+   if (role !== 'admin') {
+    query = query.eq('user_id', userId); 
+  }
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
 });
@@ -62,7 +65,6 @@ app.get('/api/live-replies', async (req, res) => {
 
     if (error) return res.status(500).json({ error: error.message });
 
-    // Only include rows where reply_status is 'replied' (case-insensitive)
     const filtered = data.filter(
       r => typeof r.reply_status === 'string' && r.reply_status.toLowerCase() === 'replied'
     );
@@ -71,7 +73,7 @@ app.get('/api/live-replies', async (req, res) => {
     allReplies = allReplies.concat(filtered);
   }
 
-  console.log('✅ live-replies fetched (filtered):', allReplies.length);
+  console.log(' live-replies fetched (filtered):', allReplies.length);
   res.json(allReplies);
 });
 
@@ -92,20 +94,20 @@ app.get('/api/manual-reply-search', async (req, res) => {
       .eq('dealid', parsedDealId)
       .ilike('business_name', `%${business_name}%`);
 
-    console.log('📦 Supabase response:', data);
+    console.log(' Supabase response:', data);
 
     if (error) return res.status(500).json({ message: 'Supabase error', error });
     if (!data.length) return res.status(404).json({ message: 'No matching deal found' });
 
-    return res.json({ message: '✅ Deal found', deal: data[0] });
+    return res.json({ message: ' Deal found', deal: data[0] });
   } catch (err) {
-    console.error('💥 Unexpected error:', err);
+    console.error(' Unexpected error:', err);
     return res.status(500).json({ message: 'Internal server error' });
   }
 });
 
 app.get('/api/me', verifyUser, (req, res) => {
-  res.json(req.user); // { id, email, role }
+  res.json(req.user); 
 });
 
 
