@@ -41,18 +41,24 @@ app.get('/', verifyUser, (req, res) => {
 
 
 app.get('/api/deals', verifyUser, async (req, res) => {
-  const userId = req.user.id;
-  const { data, error } = await supabase
+  const { id: userId, role } = req.user;
+
+  let query = supabase
     .from('deals_submitted')
-    .select('dealid, business_name, lender_names,  name, creation_date')
-    .eq('user_id', userId)
+    .select('dealid, business_name, lender_names, creation_date, user_id') 
     .order('creation_date', { ascending: false });
-   if (role !== 'admin') {
+
+  if (role !== 'admin') {
     query = query.eq('user_id', userId); 
   }
+
+  const { data, error } = await query;
+
   if (error) return res.status(500).json({ error: error.message });
+
   res.json(data);
 });
+
 
 app.get('/api/live-replies', async (req, res) => {
   let allReplies = [];
