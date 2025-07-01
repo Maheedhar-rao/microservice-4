@@ -96,6 +96,9 @@ app.get('/api/manual-reply-search', async (req, res) => {
   }
 });
 
+app.get('/api/me', verifyUser, (req, res) => {
+  res.json(req.user); // { id, email, role }
+});
 
 
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
